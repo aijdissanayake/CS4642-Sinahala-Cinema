@@ -35,8 +35,13 @@ class TestSpider(scrapy.Spider):
             film = Selector(text=film)
             yield {
                 'title': film.css('td.FilmTitle a::text').extract_first(),
-                'english_titles': film.css('span.sinhala18::text').extract_first(),
-                'main_actor' : film.xpath('//span[text()[contains(.,"Actor")]]/following-sibling::a/text()').extract_first()
+                'english_title': film.css('span.sinhala18::text').extract_first(),
+                'main_actor' : film.xpath('//span[text()[contains(.,"Actor")]]/following-sibling::a/text()').extract_first(),
+                'main_actress' : film.xpath('//span[text()[contains(.,"Actress")]]/following-sibling::a/text()').extract_first(),
+                'producer' : film.xpath('//span[text()[contains(.,"Producer")]]/following-sibling::a/text()').extract_first(),
+                'director' : film.xpath('//span[text()[contains(.,"Director")]]/following-sibling::a/text()').extract_first(),
+                'released_date' : film.xpath('//span[text()[contains(.,"Released Date")]]/following-sibling::text()').extract_first(),
+                'category' : film.xpath('//span[text()[contains(.,"Category")]]/following-sibling::text()').extract_first()
                 # 'actors': film.css('span.FilmdetailDefaultText span a').extract(),
             }
 
