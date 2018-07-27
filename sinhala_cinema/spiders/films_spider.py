@@ -10,14 +10,13 @@ class FilmsSpider(scrapy.Spider):
         for x in range(1, 28):
             url = base_url + str(x)
             urls.append(url)
-        print urls
 
         for url in urls:
             yield scrapy.Request(url=url, callback=self.parse)
 
     def parse(self, response):
         page = response.url.split("=")[-1]
-        filename = 'films-%s.html' % page
+        filename = 'films_new-%s.html' % page
         with open(filename, 'wb') as f:
             f.write(response.body)
         self.log('Saved file %s' % filename)
