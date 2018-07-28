@@ -33,6 +33,11 @@ class TestSpider(scrapy.Spider):
         films = response.css("table").extract()
         for film in films:
             film = Selector(text=film)
+            film_type = None
+            try:
+                film_type = film.xpath('//span[text()[contains(.,"")]]/following-sibling::text()').extract()[1]
+            except :
+                pass
             yield {
                 'title': film.css('td.FilmTitle a::text').extract_first(),
                 'english_title': film.css('span.sinhala18::text').extract_first(),
@@ -41,8 +46,8 @@ class TestSpider(scrapy.Spider):
                 'producer' : film.xpath('//span[text()[contains(.,"Producer")]]/following-sibling::a/text()').extract_first(),
                 'director' : film.xpath('//span[text()[contains(.,"Director")]]/following-sibling::a/text()').extract_first(),
                 'released_date' : film.xpath('//span[text()[contains(.,"Released Date")]]/following-sibling::text()').extract_first(),
-                'category' : film.xpath('//span[text()[contains(.,"Category")]]/following-sibling::text()').extract_first()
-                # 'actors': film.css('span.FilmdetailDefaultText span a').extract(),
+                'category' : film.xpath('//span[text()[contains(.,"Category")]]/following-sibling::text()').extract_first(),
+                'type' : film_type
             }
 
     # def parse(self, response):
